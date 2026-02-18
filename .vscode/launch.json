@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Current InScript File",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/current.js",
+      "preLaunchTask": "InScript: Compile & Run Current File",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Run Hello World Example",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/test-hello.js",
+      "preLaunchTask": "InScript: Compile Hello World",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Compile Interactive Box for Browser",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/interactive-box.js",
+      "preLaunchTask": "InScript: Compile Interactive Box Game",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+// Simple Game Example - Interactive Box
+// Demonstrates game loop, canvas drawing, and input handling
+
+game InteractiveBox {
+    title: "Interactive Box"
+    width: 800
+    height: 600
+}
+
+let canvasWidth = 800
+let canvasHeight = 600
+
+let playerBox = {
+    x: 100,
+    y: 100,
+    width: 50,
+    height: 50,
+    speed: 200,
+    color: "#00FF00"
+}
+
+// Game initialization
+on init() {
+    print("Game initialized! Use arrow keys to move the box.")
+}
+
+// Game update - runs every frame with deltaTime
+on update(dt) {
+    let moveDistance = playerBox.speed * dt
+    
+    // Handle keyboard input
+    if Input.isArrowLeft() {
+        playerBox.x = playerBox.x - moveDistance
+    }
+    if Input.isArrowRight() {
+        playerBox.x = playerBox.x + moveDistance
+    }
+    if Input.isArrowUp() {
+        playerBox.y = playerBox.y - moveDistance
+    }
+    if Input.isArrowDown() {
+        playerBox.y = playerBox.y + moveDistance
+    }
+    
+    // Clamp position to canvas
+    let maxX = canvasWidth - playerBox.width
+    let maxY = canvasHeight - playerBox.height
+    playerBox.x = clamp(playerBox.x, 0, maxX)
+    playerBox.y = clamp(playerBox.y, 0, maxY)
+}
+
+// Game render - runs every frame after update
+on render() {
+    // Draw background
+    Canvas.drawRect(0, 0, canvasWidth, canvasHeight, "#000000")
+    
+    // Draw the player box
+    Canvas.drawRect(playerBox.x, playerBox.y, playerBox.width, playerBox.height, playerBox.color)
+    
+    // Draw border around box
+    Canvas.drawRectStroke(playerBox.x, playerBox.y, playerBox.width, playerBox.height, "#FFFF00", 2)
+    
+    // Draw mouse position
+    let mousePos = Input.getMousePosition()
+    Canvas.drawCircle(mousePos.x, mousePos.y, 3, "#FF0000")
+    
+    // Draw info text
+    Canvas.drawText("Arrow Keys to Move | Mouse: " + mousePos.x + "," + mousePos.y, 10, 10, "#FFFFFF", 14)
+}
+
+// Handle custom input events
+on input(event) {
+    if event.type == "mousedown" {
+        print("Mouse clicked at: " + event.x + ", " + event.y)
+    }
+}

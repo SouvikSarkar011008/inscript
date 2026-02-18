@@ -1,0 +1,17 @@
+[
+  {
+    "key": "ctrl+shift+b",
+    "command": "workbench.action.tasks.build",
+    "when": "editorFocus && editorLangId == inscript"
+  },
+  {
+    "key": "ctrl+alt+r",
+    "command": "workbench.action.tasks.runTask",
+    "args": "InScript: Compile & Run Current File"
+  },
+  {
+    "key": "ctrl+alt+g",
+    "command": "workbench.action.tasks.runTask",
+    "args": "InScript: Compile Interactive Box Game"
+  }
+]

@@ -1,0 +1,45 @@
+game HelloWorld {
+    title: "Hello World Game"
+    width: 800
+    height: 600
+    mode: "2d"
+}
+
+let score = 0
+const GRAVITY = 9.8
+
+func calculateHealth(maxHealth, damage) {
+    return maxHealth - damage
+}
+
+class Player {
+    name: text
+    health: number = 100
+    
+    func new(playerName) {
+        this.name = playerName
+    }
+    
+    func takeDamage(amount) {
+        this.health = this.health - amount
+    }
+}
+
+on init() {
+    print("Game initialized!")
+}
+
+on update(dt) {
+    score = score + 1
+}
+
+on input(event) {
+    if event.type == "keydown" {
+        print("Key pressed")
+    }
+}
+
+on render(canvas) {
+    canvas.fillColor = "white"
+    canvas.fillRect(0, 0, 800, 600)
+}

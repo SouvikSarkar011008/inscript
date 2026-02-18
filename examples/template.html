@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InScript Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .game-container {
+            background: #2a2a3a;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+        }
+        
+        #game-canvas {
+            display: block;
+            background: #000;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .info {
+            color: #fff;
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .info p {
+            margin: 5px 0;
+        }
+        
+        .controls {
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div class="info">
+            <p><strong>InScript Game</strong></p>
+            <div class="controls">
+                <p>🎮 Controls: Arrow Keys to Move, Mouse to Interact</p>
+                <p>Press F11 for fullscreen (on supported browsers)</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Your compiled InScript game code goes here -->
+    <script src="interactive-box.js"></script>
+</body>
+</html>

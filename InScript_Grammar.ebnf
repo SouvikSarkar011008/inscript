@@ -1,0 +1,122 @@
+(* InScript Formal Grammar - EBNF Notation *)
+
+(* Program Structure *)
+program = { statement } ;
+statement = declaration | expressionStatement | block | controlFlow ;
+
+(* Declarations *)
+declaration = gameDecl | classDecl | funcDecl | varDecl | assetDecl ;
+
+gameDecl = "game" identifier "{" { gameProp } "}" ;
+gameProp = identifier ":" ( identifier | number | string ) ;
+
+classDecl = "class" identifier [ "extends" identifier ] "{" { classMember } "}" ;
+classMember = ( varDecl | funcDecl | methodDecl ) ;
+methodDecl = [ "private" ] "func" identifier Parameters Block ;
+
+funcDecl = "func" identifier Parameters [ "->" type ] block ;
+Parameters = "(" [ parameterList ] ")" ;
+parameterList = parameter { "," parameter } ;
+parameter = identifier [ ":" type ] [ "=" expression ] ;
+
+varDecl = ( "let" | "const" | "var" ) identifier [ ":" type ] [ "=" expression ] ;
+
+assetDecl = "assets" "{" { assetDef } "}" ;
+assetDef = assetType identifier "=" string [ "," { assetProp } ] ;
+assetType = "image" | "audio" | "font" | "model" ;
+
+(* Types *)
+type = primitiveType | complexType ;
+primitiveType = "number" | "text" | "bool" | "null" ;
+complexType = "[" type "]"              (* List *)
+            | "{" identifier ":" type "}" (* Map *)
+            | "(" type { "," type } ")" ; (* Tuple *)
+
+(* Expressions *)
+expression = assignment ;
+assignment = ternary [ assignOp assignment ] ;
+assignOp = "=" | "+=" | "-=" | "*=" | "/=" | "%=" ;
+
+ternary = logicalOr [ "?" expression ":" ternary ] ;
+logicalOr = logicalAnd { "||" logicalAnd } ;
+logicalAnd = equality { "&&" equality } ;
+equality = comparison { eqOp comparison } ;
+eqOp = "==" | "!=" | "<" | "<=" | ">" | ">=" ;
+
+comparison = additive { compareOp additive } ;
+compareOp = "in" ;
+
+additive = multiplicative { addOp multiplicative } ;
+addOp = "+" | "-" ;
+
+multiplicative = unary { mulOp unary } ;
+mulOp = "*" | "/" | "%" ;
+
+unary = [ unaryOp ] postfix ;
+unaryOp = "!" | "-" | "+" ;
+
+postfix = primary { postfixOp } ;
+postfixOp = indexOp | memberOp | callOp ;
+indexOp = "[" expression "]" ;
+memberOp = "." identifier ;
+callOp = "(" [ argumentList ] ")" ;
+
+primary = literal
+        | identifier
+        | "(" expression ")"
+        | lambdaExpr
+        | listLiteral
+        | mapLiteral
+        | "new" className [ "(" [ argumentList ] ")" ]
+        | prefixFuncCall ;
+
+lambdaExpr = "fn" Parameters "{" { statement } "}" ;
+listLiteral = "[" [ expressionList ] "]" ;
+mapLiteral = "{" [ mapEntries ] "}" ;
+mapEntries = mapEntry { "," mapEntry } ;
+mapEntry = identifier ":" expression ;
+
+literal = number | string | boolean | "null" ;
+className = identifier | "Vec2" | "Vec3" | "Point" ;
+argumentList = expression { "," expression } ;
+expressionList = expression { "," expression } ;
+
+(* Control Flow *)
+controlFlow = ifStmt | matchStmt | whileStmt | forStmt | loopStmt ;
+
+ifStmt = "if" expression block [ "else" ( ifStmt | block ) ] ;
+matchStmt = "match" expression "{" { matchCase } [ defaultCase ] "}" ;
+matchCase = expression "=>" statement ;
+defaultCase = "default" "=>" statement ;
+
+whileStmt = "while" expression block ;
+forStmt = "for" identifier [ "in" expression ] block ;
+loopStmt = "loop" block ;
+
+block = "{" { statement } "}" ;
+
+(* Special Handlers *)
+eventHandler = "on" eventName "(" parameterList ")" block ;
+eventName = "init" | "update" | "input" | "render" ;
+
+(* Statements *)
+expressionStatement = expression [ ";" ] ;
+
+returnStmt = "return" [ expression ] [ ";" ] ;
+breakStmt = "break" [ ";" ] ;
+continueStmt = "continue" [ ";" ] ;
+
+(* Lexical Elements *)
+identifier = letter { letter | digit | "_" } ;
+number = [ "-" ] digit+ [ "." digit+ ] ;
+string = '"' { stringChar } '"' | "'" { stringChar } "'" ;
+stringChar = textChar | escapeSeq ;
+escapeSeq = "\\" ( "n" | "t" | "r" | '"' | "'" | "\\" ) ;
+
+letter = "a" | "b" | ... | "z" | "A" | "B" | ... | "Z" ;
+digit = "0" | "1" | ... | "9" ;
+textChar = any character except quote or backslash ;
+
+(* Comments *)
+comment = "//" { any character except newline } newline
+        | "/*" { any character } "*/" ;
